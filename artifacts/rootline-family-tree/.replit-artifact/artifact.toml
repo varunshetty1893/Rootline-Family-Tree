@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Rootline Family Tree"
+description = "A private family tree app for adding people and relationships, viewing connected branches, and keeping sibling order accurate by date of birth."
+version = "1.0.0"
+id = "artifacts/rootline-family-tree"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25883
+
+[services.development]
+run = "pnpm --filter @workspace/rootline-family-tree run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/rootline-family-tree", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/rootline-family-tree/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25883"
+BASE_PATH = "/"
